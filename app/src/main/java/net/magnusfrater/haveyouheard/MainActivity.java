@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     // views
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     // heard about the McDonald's's app
     private void yes () {
-        if (Utils.isAppInstalled(this, "com.mcdonalds.app")) {
+        if (Utils.isAppInstalled(this, getString(R.string.mcpackage))) {
             // has McDonald's app installed
             heard();
             launchMcDonaldsApp();
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     // didn't hear about the McDonald's's app
     private void no () {
-        if (Utils.isAppInstalled(this, "com.mcdonalds.app")) {
+        if (Utils.isAppInstalled(this, getString(R.string.mcpackage))) {
             // lied, has McDonald's app installed
             lied();
             launchMcDonaldsApp();
@@ -92,12 +94,12 @@ public class MainActivity extends AppCompatActivity {
     // opens McDonald's app link in the play store
     private void launchPlayStore () {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("market://details?id=com.mcdonalds.app"));
+        intent.setData(Uri.parse("market://details?id=" + getString(R.string.mcpackage)));
         startActivity(intent);
     }
 
     private void launchMcDonaldsApp () {
-        Intent intent = getPackageManager().getLaunchIntentForPackage("com.mcdonalds.app");
+        Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.mcpackage));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
@@ -106,20 +108,20 @@ public class MainActivity extends AppCompatActivity {
     private void lied () {
         liedCount++;
 
-        tvLies.setText("Lies: " + liedCount);
+        tvLies.setText(String.format(Locale.getDefault(), "%s%d", getString(R.string.tvLies), liedCount));
     }
 
     // if user actually heard about the McDonald's app
     private void heard () {
         heardCount++;
 
-        tvHeard.setText("Heard: " + heardCount);
+        tvHeard.setText(String.format(Locale.getDefault(), "%s%d", getString(R.string.tvHeard), heardCount));
     }
 
     // if user actually hasn't heard about the McDonald's app
     private void notHeard () {
         notHeardCount++;
 
-        tvNotHeard.setText("Not Heard: " + notHeardCount);
+        tvNotHeard.setText(String.format(Locale.getDefault(), "%s%d", getString(R.string.tvNotHeard), notHeardCount));
     }
 }
