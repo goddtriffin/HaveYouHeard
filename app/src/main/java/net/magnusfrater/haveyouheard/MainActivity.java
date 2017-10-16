@@ -13,6 +13,9 @@ public class MainActivity extends AppCompatActivity {
 
     // views
     private TextView tvQuestion;
+    private TextView tvHeard;
+    private TextView tvLies;
+    private TextView tvNotHeard;
     private Button bYes;
     private Button bNo;
 
@@ -35,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews () {
         tvQuestion  = (TextView)    findViewById(R.id.tvQuestion);
+        tvHeard     = (TextView)    findViewById(R.id.tvHeard);
+        tvLies      = (TextView)    findViewById(R.id.tvLies);
+        tvNotHeard  = (TextView)    findViewById(R.id.tvNotHeard);
         bYes        = (Button)      findViewById(R.id.bYes);
         bNo         = (Button)      findViewById(R.id.bNo);
     }
@@ -99,15 +105,21 @@ public class MainActivity extends AppCompatActivity {
     // if user lied about hearing about the McDonald's app
     private void lied () {
         liedCount++;
+
+        tvLies.setText("Lies: " + liedCount);
     }
 
     // if user actually heard about the McDonald's app
     private void heard () {
         heardCount++;
+
+        tvHeard.setText("Heard: " + heardCount);
     }
 
     // if user actually hasn't heard about the McDonald's app
     private void notHeard () {
         notHeardCount++;
+
+        tvNotHeard.setText("Not Heard: " + notHeardCount);
     }
 }

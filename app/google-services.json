@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "442700243530",
+    "firebase_url": "https://side-projects-814d5.firebaseio.com",
+    "project_id": "side-projects-814d5",
+    "storage_bucket": "side-projects-814d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442700243530:android:6b6a7c1a6e10933b",
+        "android_client_info": {
+          "package_name": "net.magnusfrater.haveyouheard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "442700243530-j28e62r7jgec7hjfrkbn725p7qr0l32r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZk-SpkqflPGs9DFqKqdXUN0skL45uw_o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
