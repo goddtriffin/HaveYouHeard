@@ -93,12 +93,16 @@ public class MainActivity extends AppCompatActivity {
 
     // opens McDonald's app link in the play store
     private void launchPlayStore () {
+        Toast.makeText(this, "Launching Play Store...", Toast.LENGTH_SHORT).show();
+
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("market://details?id=" + getString(R.string.mcpackage)));
         startActivity(intent);
     }
 
     private void launchMcDonaldsApp () {
+        Toast.makeText(this, "Launching Ron's...", Toast.LENGTH_SHORT).show();
+
         Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.mcpackage));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -108,20 +112,20 @@ public class MainActivity extends AppCompatActivity {
     private void lied () {
         liedCount++;
 
-        tvLies.setText(String.format(Locale.getDefault(), "%s%d", getString(R.string.tvLies), liedCount));
+        tvLies.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.tvLies), liedCount));
     }
 
     // if user actually heard about the McDonald's app
     private void heard () {
         heardCount++;
 
-        tvHeard.setText(String.format(Locale.getDefault(), "%s%d", getString(R.string.tvHeard), heardCount));
+        tvHeard.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.tvHeard), heardCount));
     }
 
     // if user actually hasn't heard about the McDonald's app
     private void notHeard () {
         notHeardCount++;
 
-        tvNotHeard.setText(String.format(Locale.getDefault(), "%s%d", getString(R.string.tvNotHeard), notHeardCount));
+        tvNotHeard.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.tvNotHeard), notHeardCount));
     }
 }
