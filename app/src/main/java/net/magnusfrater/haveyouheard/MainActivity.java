@@ -2,12 +2,19 @@ package net.magnusfrater.haveyouheard;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
 
@@ -20,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvNotHeard;
     private Button bYes;
     private Button bNo;
+
+    // Firebase
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     // temp
     private int heardCount = 0;
@@ -36,8 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
         // listeners
         attachListeners();
+
+        // initialize Firebase
+        initFirebase();
     }
 
+    // set up the views
     private void initViews () {
         tvQuestion  = (TextView)    findViewById(R.id.tvQuestion);
         tvHeard     = (TextView)    findViewById(R.id.tvHeard);
@@ -47,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         bNo         = (Button)      findViewById(R.id.bNo);
     }
 
+    // creates functionality for the 'Yes' and 'No' buttons
     private void attachListeners () {
         // yes
         bYes.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +79,39 @@ public class MainActivity extends AppCompatActivity {
                 no();
             }
         });
+    }
+
+    // initializes Firebase data
+    private void initFirebase () {
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                if (user == null) {
+                    signIn();
+                }
+            }
+        };
+    }
+
+    private void signIn () {
+        mAuth.signInAnonymously()
+                .addOnSuccessListener(
+                    new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        // successfully signed in
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, "Failed to sign in.", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     // heard about the McDonald's's app
