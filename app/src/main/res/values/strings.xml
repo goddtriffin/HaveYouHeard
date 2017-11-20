@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Have You Heard?</string>
     <string name="mcpackage">com.mcdonalds.app</string>
+
     <string name="tvLies">Lies: </string>
     <string name="tvHeard">Heard: </string>
     <string name="tvNotHeard">Not Heard: </string>
+
+    <string name="tvLiesInitial">Lies: -1</string>
+    <string name="tvHeardInitial">Heard: -1</string>
+    <string name="tvNotHeardInitial">Not Heard: -1</string>
 </resources>
