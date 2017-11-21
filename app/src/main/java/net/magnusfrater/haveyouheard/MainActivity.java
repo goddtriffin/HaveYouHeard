@@ -15,6 +15,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.Locale;
 
@@ -31,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final DocumentReference dr = db.collection("HaveYouHeard").document("4vvi2PovaZMRd2ZYJhz6");
 
     // temp
     private int heardCount = 0;
@@ -81,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // initializes Firebase data
+    // initializes Firebase data, attaches Firebase listeners
     private void initFirebase () {
         mAuth = FirebaseAuth.getInstance();
 
@@ -95,8 +103,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
+        // listens for 'count' changes
+        dr.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                if (documentSnapshot.exists()) {
+                    int heardCount      = (int) Math.round(documentSnapshot.getDouble("heardCount"));
+                    int liedCount       = (int) Math.round(documentSnapshot.getDouble("liedCount"));
+                    int notHeardCount   = (int) Math.round(documentSnapshot.getDouble("notHeardCount"));
+
+                    updateHeardCount(heardCount);
+                    updateLiedCount(liedCount);
+                    updateNotHeardCount(notHeardCount);
+                }
+            }
+        });
     }
 
+    // signs the user in through Firebase anonymous auth
     private void signIn () {
         mAuth.signInAnonymously()
                 .addOnSuccessListener(
@@ -112,6 +137,21 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Failed to sign in.", Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    // if user actually heard about the McDonald's app
+    private void updateHeardCount (int heardCount) {
+        tvHeard.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.tvHeard), heardCount));
+    }
+
+    // if user lied about hearing about the McDonald's app
+    private void updateLiedCount (int liedCount) {
+        tvLies.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.tvLies), liedCount));
+    }
+
+    // if user actually hasn't heard about the McDonald's app
+    private void updateNotHeardCount (int notHeardCount) {
+        tvNotHeard.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.tvNotHeard), notHeardCount));
     }
 
     // heard about the McDonald's's app
@@ -140,6 +180,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void heard () {
+        // TODO
+    }
+
+    private void lied () {
+        // TODO
+    }
+
+    private void notHeard () {
+        // TODO
+    }
+
     // opens McDonald's app link in the play store
     private void launchPlayStore () {
         Toast.makeText(this, "Launching Play Store...", Toast.LENGTH_SHORT).show();
@@ -155,26 +207,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.mcpackage));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-    }
-
-    // if user lied about hearing about the McDonald's app
-    private void lied () {
-        liedCount++;
-
-        tvLies.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.tvLies), liedCount));
-    }
-
-    // if user actually heard about the McDonald's app
-    private void heard () {
-        heardCount++;
-
-        tvHeard.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.tvHeard), heardCount));
-    }
-
-    // if user actually hasn't heard about the McDonald's app
-    private void notHeard () {
-        notHeardCount++;
-
-        tvNotHeard.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.tvNotHeard), notHeardCount));
     }
 }
