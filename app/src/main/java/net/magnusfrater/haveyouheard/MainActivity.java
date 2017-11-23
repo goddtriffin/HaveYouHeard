@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private final DocumentReference dr = FirebaseFirestore.getInstance().collection("HaveYouHeard").document("4vvi2PovaZMRd2ZYJhz6");
 
-    // Hail Purdue
+    // media
     private MediaPlayer mpHailPurdue;
+    private MediaPlayer mpZat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         // initialize Firebase
         initFirebase();
 
-        initOther();
+        // media
+        initMedia();
     }
 
     @Override
@@ -155,11 +157,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // initializes all other data needed that hasn't been initialized already
-    private void initOther () {
-        // mpHailPurdue = new MediaPlayer();
+    private void initMedia () {
+        // Hail Purdue
         mpHailPurdue = MediaPlayer.create(this, R.raw.hailpurdue);
         mpHailPurdue.setLooping(true);
         mpHailPurdue.start();
+
+        // zat
+        mpZat = MediaPlayer.create(this, R.raw.zat);
     }
 
     // signs the user in through Firebase anonymous auth
@@ -199,6 +204,9 @@ public class MainActivity extends AppCompatActivity {
             lied();
             launchPlayStore();
         }
+
+        // zat
+        mpZat.start();
     }
 
     // didn't hear about the McDonald's's app
@@ -212,6 +220,9 @@ public class MainActivity extends AppCompatActivity {
             notHeard();
             launchPlayStore();
         }
+
+        // zat
+        mpZat.start();
     }
 
     private void heard () {
@@ -271,5 +282,8 @@ public class MainActivity extends AppCompatActivity {
     // just opens the Github page for this project
     private void about () {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MagnusFrater/HaveYouHeard")));
+
+        // zat
+        mpZat.start();
     }
 }
