@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,6 +25,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
+    // debugging
+    private final String TAG = "HaveYouHeard";
 
     // views
     private TextView tvQuestion;
@@ -62,7 +66,11 @@ public class MainActivity extends AppCompatActivity {
         dr.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                if (documentSnapshot.exists()) {
+                if (e != null) {
+                    Log.e(TAG, e.toString());
+                }
+
+                if (documentSnapshot != null && documentSnapshot.exists()) {
                     int heardCount      = (int) Math.round(documentSnapshot.getDouble("heardCount"));
                     int liedCount       = (int) Math.round(documentSnapshot.getDouble("liedCount"));
                     int notHeardCount   = (int) Math.round(documentSnapshot.getDouble("notHeardCount"));
@@ -201,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         // only handle update if snapshot still exists, and the specified 'count' exists
-                        if (documentSnapshot.exists() && documentSnapshot.contains(countName)) {
+                        if (documentSnapshot != null && documentSnapshot.exists() && documentSnapshot.contains(countName)) {
                             // get latest count
                             int count = (int) Math.round(documentSnapshot.getDouble(countName));
 
@@ -214,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(MainActivity.this, "Failed to load " + countName + "...", Toast.LENGTH_LONG).show();
+                        Log.e(TAG, e.toString());
                     }
                 });
     }
