@@ -35,14 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Firebase
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
 
     private final DocumentReference dr = FirebaseFirestore.getInstance().collection("HaveYouHeard").document("4vvi2PovaZMRd2ZYJhz6");
-
-    // temp
-    private int heardCount = 0;
-    private int notHeardCount = 0;
-    private int liedCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,11 +107,12 @@ public class MainActivity extends AppCompatActivity {
     private void initFirebase () {
         mAuth = FirebaseAuth.getInstance();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
+        FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
+                // make sure the user is always signed in
                 if (user == null) {
                     signIn();
                 }
@@ -128,13 +123,6 @@ public class MainActivity extends AppCompatActivity {
     // signs the user in through Firebase anonymous auth
     private void signIn () {
         mAuth.signInAnonymously()
-                .addOnSuccessListener(
-                    new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        // successfully signed in
-                    }
-                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
