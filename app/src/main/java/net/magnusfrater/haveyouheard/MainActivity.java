@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvNotHeard;
     private Button bYes;
     private Button bNo;
+    private Button bAbout;
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -82,23 +83,32 @@ public class MainActivity extends AppCompatActivity {
         tvNotHeard  = (TextView)    findViewById(R.id.tvNotHeard);
         bYes        = (Button)      findViewById(R.id.bYes);
         bNo         = (Button)      findViewById(R.id.bNo);
+        bAbout      = (Button)      findViewById(R.id.bAbout);
     }
 
     // creates functionality for the 'Yes' and 'No' buttons
     private void attachListeners () {
-        // yes
-        bYes.setOnClickListener(new View.OnClickListener() {
+        // yes button
+        bYes.setOnClickListener(new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
+            public void onClick (View view) {
                 yes();
             }
         });
 
-        // no
-        bNo.setOnClickListener(new View.OnClickListener() {
+        // no button
+        bNo.setOnClickListener(new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
+            public void onClick (View view) {
                 no();
+            }
+        });
+
+        // about button
+        bAbout.setOnClickListener(new View.OnClickListener () {
+            @Override
+            public void onClick (View view) {
+                about();
             }
         });
     }
@@ -223,5 +233,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.mcpackage));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    // just opens the Github page for this project
+    private void about () {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MagnusFrater/HaveYouHeard")));
     }
 }
