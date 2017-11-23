@@ -1,6 +1,7 @@
 package net.magnusfrater.haveyouheard;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "HaveYouHeard";
 
     // views
-    private TextView tvQuestion;
     private TextView tvHeard;
     private TextView tvLies;
     private TextView tvNotHeard;
@@ -40,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Firebase
     private FirebaseAuth mAuth;
-
     private final DocumentReference dr = FirebaseFirestore.getInstance().collection("HaveYouHeard").document("4vvi2PovaZMRd2ZYJhz6");
+
+    // Hail Purdue
+    private MediaPlayer mpHailPurdue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
         // initialize Firebase
         initFirebase();
+
+        initOther();
     }
 
     @Override
@@ -81,11 +84,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Hail Purdue
+        if (mpHailPurdue != null) {
+            mpHailPurdue.start();
+        }
+    }
+
+    @Override
+    protected void onStop () {
+        super.onStop();
+
+        if (mpHailPurdue != null) {
+            mpHailPurdue.pause();
+        }
     }
 
     // set up the views
     private void initViews () {
-        tvQuestion  = (TextView)    findViewById(R.id.tvQuestion);
         tvHeard     = (TextView)    findViewById(R.id.tvHeard);
         tvLies      = (TextView)    findViewById(R.id.tvLies);
         tvNotHeard  = (TextView)    findViewById(R.id.tvNotHeard);
@@ -136,6 +152,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    // initializes all other data needed that hasn't been initialized already
+    private void initOther () {
+        // mpHailPurdue = new MediaPlayer();
+        mpHailPurdue = MediaPlayer.create(this, R.raw.hailpurdue);
+        mpHailPurdue.setLooping(true);
+        mpHailPurdue.start();
     }
 
     // signs the user in through Firebase anonymous auth
