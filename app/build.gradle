@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     compileSdkVersion 26
@@ -35,6 +36,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }
+
+    compile 'com.google.firebase:firebase-perf:11.6.0'
 
     testCompile 'junit:junit:4.12'
 }
