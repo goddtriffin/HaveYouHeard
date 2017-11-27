@@ -13,8 +13,7 @@ public class Utils {
         try {
             context.getPackageManager().getApplicationInfo(packageName, 0);
             return true;
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
     }
