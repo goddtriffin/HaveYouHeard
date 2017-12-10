@@ -12,6 +12,6 @@ The Purdue Toobah section presents "Have You Heard?", the perfect app for normal
 
 Credit to Heisenberg for original idea, from functionality to aesthetic.
 
-![Screenshot](res/later.png)
+![Screenshot](res/later.png | width=100)
 
-[Google Play Store Link]( https://play.google.com/store/apps/details?id=net.magnusfrater.haveyouheard "Google Play Store Link" | width=100)
+[Google Play Store Link](https://play.google.com/store/apps/details?id=net.magnusfrater.haveyouheard "Google Play Store Link")
