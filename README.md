@@ -14,4 +14,4 @@ Credit to Heisenberg for original idea, from functionality to aesthetic.
 
 ![Screenshot](res/later.png)
 
-[Google Play Store Link]( https://play.google.com/store/apps/details?id=net.magnusfrater.haveyouheard "Google Play Store Link")
+[Google Play Store Link]( https://play.google.com/store/apps/details?id=net.magnusfrater.haveyouheard "Google Play Store Link" | width=100)
